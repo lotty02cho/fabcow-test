@@ -20,8 +20,6 @@
 /*
  * The sample smart contract for documentation topic:
  * Writing Your First Blockchain Application
- * ¼³¸í¼­ Ç×¸ñ »ùÇÃ ½º¸¶Æ® °è¾à :
- * Ã¹ ºí·Ï Ã¼ÀÎ ¾îÇÃ¸®ÄÉÀÌ¼Ç ÀÛ¼ºÇÏ±â
  */
 
 package main
@@ -29,8 +27,6 @@ package main
 /* Imports
  * 4 utility libraries for formatting, handling bytes, reading and writing JSON, and string manipulation
  * 2 specific Hyperledger Fabric specific libraries for Smart Contracts
- * Æ÷¸ËÆÃ, ¹ÙÀÌÆ® Ã³¸®, JSON ÀÐ±â ¹× ¾²±â, ¹®ÀÚ¿­ Á¶ÀÛÀ» À§ÇÑ À¯Æ¿¸®Æ¼ ¶óÀÌºê·¯¸® 4
- * ½º¸¶Æ® °è¾àÀ» À§ÇÑ Æ¯Á¤ Hyperbelger Fabric ¶óÀÌºê·¯¸® 2 °³
  */
 import (
 	"bytes"
@@ -45,7 +41,6 @@ import (
 )
 
 // Define the Smart Contract structure
-// ½º¸¶Æ® ÄÁÆ®·º ±¸Á¶¸¦ Á¤ÀÇ
 type SmartContract struct {
 }
 
@@ -60,7 +55,6 @@ type Owner struct {
 }
 
 // Define the cow structure, with 4 properties.  Structure tags are used by encoding/json library
-// 7°¡Áö Æ¯¼ºµéÀ» °¡Áø ¼ÒÀÇ ±¸Á¶¸¦ Á¤ÀÇÇÕ´Ï´Ù. ±¸Á¶ ÅÂ±×µéÀº ÀÎÄÚµù È¤Àº json ¶óÀÌºê·¯¸®¿¡ ÀÇÇØ »ç¿ëµË´Ï´Ù.
 type Cow struct {
 	Id_no      string `json:"Id_no"`
 	Birth_date string `json:"Birth_date"`
@@ -96,13 +90,13 @@ type Bundle struct {
 }
 
 //args[0]						-- Cow Key
-//args[1] id_no					-- °³Ã¼½Äº°¹øÈ£
-//args[2] barcode_id			-- ¹ÙÄÚµå ID
-//args[3] package_date			-- Æ÷ÀåÃ³¸®ÀÏ
-//args[4] part					-- ºÎÀ§
-//args[5] weight				-- Áß·®
-//args[6] purchase_nm			-- ¸ÅÀÔ/ÀÇ·ÚÃ³ »óÈ£
-//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+//args[1] id_no
+//args[2] barcode_id
+//args[3] package_date
+//args[4] part
+//args[5] weight
+//args[6] purchase_nm
+//args[7] purchase_biz_no
 
 type Remark struct {
 	Key   string `json:"Key"`
@@ -112,8 +106,6 @@ type Remark struct {
 /*
  * The Init method is called when the Smart Contract "fabcow" is instantiated by the blockchain network
  * Best practice is to have any Ledger initialization in separate function -- see initLedger()
- * Init ¸Þ¼Òµå´Â ºí·ÏÃ¼ÀÎ ³×Æ®¿öÅ©¿¡ ÀÇÇØ "fabcow"ÀÇ ½º¸¶Æ® ÄÁÆ®·ºÀÌ ÀÎ½ºÅÏ½ºÈ­µÉ ¶§ È£ÃâµË´Ï´Ù.
- * °¡Àå ÁÁÀº ½Ç½ÀÀº ´Ù¸¥ ±â´É¾È¿¡¼­ ¾î¶°ÇÑ ¿øÀåÀÌµç ÃÊ±âÈ­¸¦ ÇÏ´Â°ÍÀÔ´Ï´Ù´Ù. -- initLedger() ÇÔ¼ö¸¦ º¸½Ê½Ã¿À.
  */
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 	return shim.Success(nil)
@@ -122,16 +114,13 @@ func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 /*
  * The Invoke method is called as a result of an application request to run the Smart Contract "fabcow"
  * The calling application program has also specified the particular smart contract function to be called, with arguments
- * Invoke ¸Þ¼­µå´Â ½º¸¶Æ® °è¾à "fabcow"¸¦ ½ÇÇàÇÏ±âÀ§ÇÑ ÀÀ¿ë ÇÁ·Î±×·¥ ¿äÃ»ÀÇ °á°ú·Î È£ÃâµË´Ï´Ù.
- * È£Ãâ ÀÀ¿ë ÇÁ·Î±×·¥Àº ÀÎ¼ö¸¦ »ç¿ëÇÏ¿© Æ¯Á¤ ½º¸¶Æ® °è¾à ÇÔ¼ö¸¦ È£ÃâÇÏµµ·Ï ÁöÁ¤Çß½À´Ï´Ù.
  */
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	// Retrieve the requested Smart Contract function and arguments
-	// ¿äÃ»µÈ ½º¸¶Æ® ÄÁÆ®·º ÇÔ¼ö¿Í ÀÎ¼öµéÀ» °Ë»öÇÕ´Ï´Ù.
 	function, args := APIstub.GetFunctionAndParameters()
 	// Route to the appropriate handler function to interact with the ledger appropriately
-	// ¿øÀå°ú »óÈ£ÀÛ¿ëÇÏ´Â Ã³¸® ÇÔ¼ö·Î ¿¬°áÇÕ´Ï´Ù.
+
 	if function == "initLedger" {
 		return s.initLedger(APIstub)
 	} else if function == "queryAllCows" {
@@ -180,18 +169,18 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.addAut(APIstub, args)
 	}
 
-	return shim.Error("Invalid Smart Contract function name.(À¯È¿ÇÏÁö ¾ÊÀº ½º¸¶Æ® ÄÁÆ®·º ÇÔ¼ö ÀÌ¸§ÀÔ´Ï´Ù.)")
+	return shim.Error("Invalid Smart Contract function name.(:).)")
 }
 
 func (s *SmartContract) query(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{"Args":["query", "COW", "COW0"]}'
-	//args[0]				-- ÀÚ»êÁ¤º¸(COW, OWNER, HACCP, RFID)
-	//args[1]				-- (ÀÚ»ê+³Ñ¹ö¸µ)
+	//args[0]
+	//args[1]
 
 	log.Println("--==query==--")
 
 	if len(args) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 2(ÀûÀýÇÏÁö ¾ÊÀº ÀÎ¼öµéÀÇ ¼öÀÔ´Ï´Ù.)")
+		return shim.Error("Incorrect number of arguments. Expecting 2(:).)")
 	}
 	if strings.Contains(args[0], "COW") {
 		cowAsBytes, _ := APIstub.GetState(args[1])
@@ -209,11 +198,11 @@ func (s *SmartContract) query(APIstub shim.ChaincodeStubInterface, args []string
 		haccpAsBytes, _ := APIstub.GetState(args[1])
 		return shim.Success(haccpAsBytes)
 	} else {
-		return shim.Error("ÀûÀýÇÏÁö ¾ÊÀº ÀÎÀÚ°ª ÀÔ´Ï´Ù.")
+		return shim.Error(":)")
 	}
 }
 
-//¸ðµç ¼Ò Á¤º¸ °¡Á®¿À±â
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) queryAllCows(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	startKey := "COW0"
@@ -257,7 +246,7 @@ func (s *SmartContract) queryAllCows(APIstub shim.ChaincodeStubInterface) sc.Res
 	return shim.Success(buffer.Bytes())
 }
 
-//¸ðµç ¼ÒÀ¯ÀÚ Á¤º¸ °¡Á®¿À±â
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) queryAllOwners(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	startKey := "OWNER0"
@@ -301,7 +290,7 @@ func (s *SmartContract) queryAllOwners(APIstub shim.ChaincodeStubInterface) sc.R
 	return shim.Success(buffer.Bytes())
 }
 
-//±âº» ¼Ò, ¼ÒÀ¯ÀÚ Á¤º¸ ¸¸µé±â(Sample)
+//ï¿½âº» ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Sample)
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	log.Println("--==initLedger==--")
@@ -330,17 +319,17 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 	return shim.Success(nil)
 }
 
-//°³Ã¼½Äº°¹øÈ£ µî·Ï
+//ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) registerCow(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{"Args":["registerCow","COW0", "180501-1","180501", "M", "630118-1", "630331-2", "Ik-San", "OWNER0"]}'
 	//args[0]				-- COW Key
-	//args[1] Id_no			-- °³Ã¼½Äº°¹øÈ£
-	//args[2] Birth_date	-- Ãâ»ý³â¿ùÀÏ
-	//args[3] Sex			-- ¼ºº°
-	//args[4] Father_id		-- Ý« °³Ã¼½Äº°¹øÈ£
-	//args[5] Mother_id		-- Ù½ °³Ã¼½Äº°¹øÈ£
-	//args[6] Origin		-- ¿ø»êÁö
-	//args[7]				-- OWNER(³óÀåÁÖ)Á¤º¸
+	//args[1] Id_no			-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] Birth_date	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[3] Sex			-- ï¿½ï¿½ï¿½ï¿½
+	//args[4] Father_id		-- Ý« ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[5] Mother_id		-- Ù½ ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[6] Origin		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[7]				-- OWNER(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½
 
 	log.Println("--==registerCow==--")
 
@@ -350,7 +339,7 @@ func (s *SmartContract) registerCow(APIstub shim.ChaincodeStubInterface, args []
 
 	ownerAsBytes, _ := APIstub.GetState(args[7])
 	if ownerAsBytes == nil {
-		return shim.Error("Incorrect value. Owner Á¤º¸¸¦ ¿Ã¹Ù¸£°Ô ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.")
+		return shim.Error("Incorrect value. Owner :).")
 	}
 	owner := Owner{}
 
@@ -369,47 +358,47 @@ func (s *SmartContract) registerCow(APIstub shim.ChaincodeStubInterface, args []
 	return shim.Success(nil)
 }
 
-//³óÀå Á¤º¸µî·Ï, µµÃàÀåµî·Ï, °¡°øÀå µî·Ï, ÆÇ¸ÅÀå µî·Ï
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{'"Args":["registerOwner","OWNER10", "FARM0", "ChukLim1", "Iksan", "C", "Kim Duck Bae", "530118"]}'
 	//'{'"Args":["registerOwner","OWNER11", "SLAUGHTER0", "DoChuk1", "Jeonju", "C", "Lee Do Chuk", "500118", "063-111-2222", "1-7474-8700"]}'
 	//'{'"Args":["registerOwner","OWNER12", "PROCESS0", "Gagong1", "PyeongTak", "Empty", "Park Ga Gong", "Empty", "2-7474-8701"]}'
 	//'{'"Args":["registerOwner","OWNER13", "SALE0", "Panmae1", "Ansan", "Empty", "Moon Pan Mae", "Empty", "3-7474-8702"]}'
-	//args[0]					-- ¼ÒÀ¯ÀÚ¾ÆÀÌµð
-	///³óÀåÁ¤º¸(Default)
-	//args[1] farm_id			-- ³óÀå½Äº°¹øÈ£(slaughter_id[µµÃàÀåID], process_id[°¡°øÀåID], sale_id[ÆÇ¸ÅÀåID])
-	//args[2] farm_nm			-- ³óÀå¸í(slaughter_nm[µµÃàÀå¸í], process_nm[°¡°øÀå »óÈ£], sale_nm[ÆÇ¸ÅÀå »óÈ£])
-	//args[3] farm_addr			-- ³óÀå¼ÒÀçÁö(slaughter_addr[µµÃàÀåÁÖ¼Ò], process_addr[°¡°øÀå ÁÖ¼Ò], sale_addr[ÆÇ¸ÅÀå ÁÖ¼Ò])
-	//args[4] livestock			-- °¡ÃàÀÇ Á¾·ù(handel_livestock[µµÃàÀåÀüÈ­¹øÈ£], "Empty", "Empty")
-	//args[5] farm_user_nm		-- ³óÀå°æ¿µÀÚ ¼º¸í(slaughter_user_nm[µµÃàÀå], process_user_nm[°¡°øÀå ´ëÇ¥ÀÚ¸í], sale_user_nm[ÆÇ¸ÅÀå ´ëÇ¥ÀÚ¸í])
-	//args[6] farm_user_brith	-- ³óÀå°æ¿µÀÚ »ý³â¿ùÀÏ(slaughter_user_birth, "Empty", "Empty")
+	//args[0]					-- ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Default)
+	//args[1] farm_id			-- ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½È£(slaughter_id[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID], process_id[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID], sale_id[ï¿½Ç¸ï¿½ï¿½ï¿½ID])
+	//args[2] farm_nm			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(slaughter_nm[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½], process_nm[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£], sale_nm[ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½È£])
+	//args[3] farm_addr			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(slaughter_addr[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½], process_addr[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½], sale_addr[ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½])
+	//args[4] livestock			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(handel_livestock[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½È£], "Empty", "Empty")
+	//args[5] farm_user_nm		-- ï¿½ï¿½ï¿½ï¿½ï¿½æ¿µï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(slaughter_user_nm[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½], process_user_nm[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½Ú¸ï¿½], sale_user_nm[ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½Ú¸ï¿½])
+	//args[6] farm_user_brith	-- ï¿½ï¿½ï¿½ï¿½ï¿½æ¿µï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(slaughter_user_birth, "Empty", "Empty")
 
-	///µµÃàÀåÁ¤º¸(Default Á¤º¸ ¿Ü)
-	//args[7] slaughter_tel		-- µµÃàÀåÀüÈ­¹øÈ£
-	//args[8] slaughter_reg_no	-- µµÃàÀå»ç¾÷ÀÚµî·Ï¹øÈ£
+	///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Default ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	//args[7] slaughter_tel		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½È£
+	//args[8] slaughter_reg_no	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
-	///°¡°øÀåÁ¤º¸(Default Á¤º¸ ¿Ü)
-	//args[7] process_biz_no	-- °¡°øÀå »ç¾÷ÀÚ¹øÈ£
+	///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Default ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	//args[7] process_biz_no	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£
 
-	///ÆÇ¸ÅÀåÁ¤º¸(Default Á¤º¸ ¿Ü)
-	//args[7] sale_biz_no		-- ÆÇ¸ÅÀå »ç¾÷ÀÚ¹øÈ£
+	///ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Default ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+	//args[7] sale_biz_no		-- ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£
 
 	log.Println("--==registerOwner==--")
 
-	//½Äº°¹øÈ£ È®ÀÎ
+	//ï¿½Äºï¿½ï¿½ï¿½È£ È®ï¿½ï¿½
 	if strings.Contains(args[1], "FARM") {
 		log.Println("--==>>registerOwner[FARM]")
-		//ÆÄ¶ó¹ÌÅÍ È®ÀÎ
+		//ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		if len(args) != 7 {
 			return shim.Error("Incorrect number of arguments. Expecting 7")
 		}
 
-		//struct º¯¼ö¿¡ ´ëÀÔ
+		//struct ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		var owner = Owner{Owner_id: args[1], Owner_nm: args[2], Owner_addr: args[3], Livestock: args[4], Owner_user_nm: args[5], Owner_user_birth: args[6]}
 
 		log.Println("Logging: " + owner.Owner_id + "--" + owner.Owner_nm + "--" + owner.Livestock + "==" + owner.Owner_user_nm + "--" + owner.Owner_user_birth)
 
-		//JSON Å¸ÀÔÀ¸·Î º¯°æ
+		//JSON Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ownerAsBytes, _ := json.Marshal(owner)
 		jsonString := string(ownerAsBytes)
 		log.Println("Logging: " + jsonString)
@@ -422,10 +411,10 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 			return shim.Error("Incorrect number of arguments. Expecting 9")
 		}
 
-		//struct¿¡ ´ëÀÔ
+		//structï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		var owner = Owner{Owner_id: args[1], Owner_nm: args[2], Owner_addr: args[3], Livestock: args[4], Owner_user_nm: args[5], Owner_user_birth: args[6]}
 
-		//Default ÁöÁ¤µÈ °ª ¿Ü¿¡ ´Ù¸¥ º¯¼ö ´ëÀÔ
+		//Default ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		variables := [2]string{"registerOwner.slaughter_tel", "registerOwner.slaughter_reg_no"}
 		log.Println(variables)
 		for i := 0; i < len(variables); i++ {
@@ -438,7 +427,7 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 
 		log.Println("Logging: " + owner.Owner_id + " -- " + owner.Owner_nm + " -- " + owner.Livestock + " -- " + owner.Owner_user_nm + " -- " + owner.Owner_user_birth + " -- ")
 
-		//JSON Å¸ÀÔÀ¸·Î º¯°æ
+		//JSON Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ownerAsBytes, _ := json.Marshal(owner)
 		jsonString := string(ownerAsBytes)
 		log.Println("Logging: " + jsonString)
@@ -453,10 +442,10 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 			return shim.Error("Incorrect number of arguments. Expecting 8")
 		}
 
-		//struct¿¡ ´ëÀÔ
+		//structï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		var owner = Owner{Owner_id: args[1], Owner_nm: args[2], Owner_addr: args[3], Livestock: args[4], Owner_user_nm: args[5], Owner_user_birth: args[6]}
 
-		//Default ÁöÁ¤µÈ °ª ¿Ü¿¡ ´Ù¸¥ º¯¼ö ´ëÀÔ
+		//Default ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		variables := [1]string{"registerOwner.process_biz_no"}
 		log.Println(variables)
 		for i := 0; i < len(variables); i++ {
@@ -469,7 +458,7 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 
 		log.Println("Logging: " + owner.Owner_id + " -- " + owner.Owner_nm + " -- " + owner.Livestock + " -- " + owner.Owner_user_nm + " -- " + owner.Owner_user_birth + " -- ")
 
-		//JSON Å¸ÀÔÀ¸·Î º¯°æ
+		//JSON Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ownerAsBytes, _ := json.Marshal(owner)
 		jsonString := string(ownerAsBytes)
 		log.Println("Logging: " + jsonString)
@@ -484,10 +473,10 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 			return shim.Error("Incorrect number of arguments. Expecting 8")
 		}
 
-		//struct¿¡ ´ëÀÔ
+		//structï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		var owner = Owner{Owner_id: args[1], Owner_nm: args[2], Owner_addr: args[3], Livestock: args[4], Owner_user_nm: args[5], Owner_user_birth: args[6]}
 
-		//Default ÁöÁ¤µÈ °ª ¿Ü¿¡ ´Ù¸¥ º¯¼ö ´ëÀÔ
+		//Default ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		variables := [1]string{"registerOwner.sale_biz_no"}
 		log.Println(variables)
 		for i := 0; i < len(variables); i++ {
@@ -500,7 +489,7 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 
 		log.Println("Logging: " + owner.Owner_id + " -- " + owner.Owner_nm + " -- " + owner.Livestock + " -- " + owner.Owner_user_nm + " -- " + owner.Owner_user_birth + " -- ")
 
-		//JSON Å¸ÀÔÀ¸·Î º¯°æ
+		//JSON Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ownerAsBytes, _ := json.Marshal(owner)
 		jsonString := string(ownerAsBytes)
 		log.Println("Logging: " + jsonString)
@@ -513,21 +502,21 @@ func (s *SmartContract) registerOwner(APIstub shim.ChaincodeStubInterface, args 
 	return shim.Success(nil)
 }
 
-//HACCP ÀÎÁõµî·Ï
+//HACCP ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) registerHACCP(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{'"Args":["registerHACCP","HACCP0", "OWNER10","FARM0", "ChukLim1", "Iksan", "Cow", "20280528"]}'
-	//HACCP µî·Ï, HACCP¾ÆÀÌµð, ¼ÒÀ¯ÀÚ¾ÆÀÌµð, ...
-	//args[0]				-- HACCP¾ÆÀÌµð
-	//args[1]				-- ¼ÒÀ¯ÀÚ¾ÆÀÌµð
-	//args[2] farm_id		-- ³óÀå¾ÆÀÌµð
-	//args[3] farm_nm		-- ³óÀå¸í
-	//args[4] farm_addr		-- ³óÀåÁÖ¼Ò
-	//args[5] apply_item	-- Àû¿ëÇ°¸ñ
-	//args[6] validity_date	-- À¯È¿±â°£
+	//HACCP ï¿½ï¿½ï¿½ï¿½, HACCPï¿½ï¿½ï¿½Ìµï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½, ...
+	//args[0]				-- HACCPï¿½ï¿½ï¿½Ìµï¿½
+	//args[1]				-- ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	//args[2] farm_id		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
+	//args[3] farm_nm		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] farm_addr		-- ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
+	//args[5] apply_item	-- ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½
+	//args[6] validity_date	-- ï¿½ï¿½È¿ï¿½â°£
 
 	log.Println("--==registerHACCP==--")
 
-	//ÀÎÀÚ È®ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if len(args) != 7 {
 		return shim.Error("Incorrect number of arguments. Expecting 7")
 	}
@@ -539,7 +528,7 @@ func (s *SmartContract) registerHACCP(APIstub shim.ChaincodeStubInterface, args 
 	haccpAsBytes, _ := json.Marshal(haccp)
 	jsonString := string(haccpAsBytes)
 	log.Println("Logging: " + jsonString)
-	//HACCP Asset µî·Ï
+	//HACCP Asset ï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], haccpAsBytes)
 
 	//OWNER INVOKE
@@ -557,24 +546,24 @@ func (s *SmartContract) registerHACCP(APIstub shim.ChaincodeStubInterface, args 
 		owner.setOwnerRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ownerAsBytes, _ = json.Marshal(owner)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[1], ownerAsBytes)
 
 	return shim.Success(nil)
 }
 
-//±ÍÇ¥ ºÎÂø - ÀÚ»ê
+//ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ú»ï¿½
 func (s *SmartContract) registerRFID(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{'"Args":["registerRFID", "COW3", "RFID0"]}'
-	//HACCP µî·Ï, HACCP¾ÆÀÌµð, ¼ÒÀ¯ÀÚ¾ÆÀÌµð, ...
-	//args[0]				-- °³Ã¼ ½Äº°¹øÈ£
-	//args[1]				-- RFID ½Äº°¹øÈ£
+	//HACCP ï¿½ï¿½ï¿½ï¿½, HACCPï¿½ï¿½ï¿½Ìµï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½, ...
+	//args[0]				-- ï¿½ï¿½Ã¼ ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[1]				-- RFID ï¿½Äºï¿½ï¿½ï¿½È£
 
 	log.Println("--==registerRFID==--")
 
-	//ÀÎÀÚ È®ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
@@ -587,7 +576,7 @@ func (s *SmartContract) registerRFID(APIstub shim.ChaincodeStubInterface, args [
 	jsonString := string(rfidAsBytes)
 	log.Println("Logging: " + jsonString)
 
-	//RFID Asset µî·Ï
+	//RFID Asset ï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[1], rfidAsBytes)
 
 	//COW INVOKE
@@ -605,31 +594,31 @@ func (s *SmartContract) registerRFID(APIstub shim.ChaincodeStubInterface, args [
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//¹­À½¹øÈ£ µî·Ï - ÀÚ»ê(°¡°øÀå)
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ú»ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 func (s *SmartContract) registerInProcessesBundleNum(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-	//°¡°øÀå¹­À½¹øÈ£µî·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½å¹­ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½
 
 	log.Println("--==registerInProcessesBundleNum==--")
 
 	//'{'"Args":["registerInProcessesBundleNum","BUNDLE0", "COW10", "barcode_id", "package_date", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] id_no					-- °³Ã¼½Äº°¹øÈ£
-	//args[2] barcode_id			-- ¹ÙÄÚµå ID
-	//args[3] package_date			-- Æ÷ÀåÃ³¸®ÀÏ
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- Áß·®
-	//args[6] purchase_nm			-- ¸ÅÀÔ/ÀÇ·ÚÃ³ »óÈ£
-	//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] id_no					-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ ID
+	//args[3] package_date			-- ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½ß·ï¿½
+	//args[6] purchase_nm			-- ï¿½ï¿½ï¿½ï¿½/ï¿½Ç·ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] purchase_biz_no		-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
-	//ÀÎÀÚ È®ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if len(args) != 7 {
 		return shim.Error("Incorrect number of arguments. Expecting 7")
 	}
@@ -640,7 +629,7 @@ func (s *SmartContract) registerInProcessesBundleNum(APIstub shim.ChaincodeStubI
 	bundleAsBytes, _ := json.Marshal(bundle)
 	jsonString := string(bundleAsBytes)
 	log.Println("Logging: " + jsonString)
-	//Bundle Asset µî·Ï
+	//Bundle Asset ï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], bundleAsBytes)
 
 	//COW INVOKE
@@ -658,31 +647,31 @@ func (s *SmartContract) registerInProcessesBundleNum(APIstub shim.ChaincodeStubI
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[1], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//¹­À½¹øÈ£ µî·Ï - ÀÚ»ê(ÆÇ¸ÅÀå)
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ú»ï¿½(ï¿½Ç¸ï¿½ï¿½ï¿½)
 func (s *SmartContract) registerInSalesBundleNum(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-	//ÆÇ¸ÅÀå¹­À½¹øÈ£µî·Ï
+	//ï¿½Ç¸ï¿½ï¿½å¹­ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½
 
 	log.Println("--==registerInSalesBundleNum==--")
 
 	//'{'"Args":["registerInSalesBundleNum","BUNDLE0", "COW10", "barcode_id", "package_date", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] id_no					-- °³Ã¼½Äº°¹øÈ£
-	//args[2] barcode_id			-- ¹ÙÄÚµå ID
-	//args[3] package_date			-- Æ÷ÀåÃ³¸®ÀÏ
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- Áß·®
-	//args[6] purchase_nm			-- ¸ÅÀÔ/ÀÇ·ÚÃ³ »óÈ£
-	//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] id_no					-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ ID
+	//args[3] package_date			-- ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½ß·ï¿½
+	//args[6] purchase_nm			-- ï¿½ï¿½ï¿½ï¿½/ï¿½Ç·ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] purchase_biz_no		-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
-	//ÀÎÀÚ È®ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	if len(args) != 7 {
 		return shim.Error("Incorrect number of arguments. Expecting 7")
 	}
@@ -693,7 +682,7 @@ func (s *SmartContract) registerInSalesBundleNum(APIstub shim.ChaincodeStubInter
 	bundleAsBytes, _ := json.Marshal(bundle)
 	jsonString := string(bundleAsBytes)
 	log.Println("Logging: " + jsonString)
-	//Bundle Asset µî·Ï
+	//Bundle Asset ï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], bundleAsBytes)
 
 	//COW INVOKE
@@ -711,20 +700,20 @@ func (s *SmartContract) registerInSalesBundleNum(APIstub shim.ChaincodeStubInter
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[1], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//°¡Ãà ÀÌµ¿(¾ç¼ö/¾çµµ), µµÃàÀå ÀÌµ¿, °¡°øÀå ÀÌµ¿, ÆÇ¸ÅÀå ÀÌµ¿
+//ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½(ï¿½ï¿½ï¿½ï¿½/ï¿½çµµ), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½, ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 func (s *SmartContract) changeCowOwner(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{"Args":["changeCowOwner", "COW3", "OWNER1", "OWNER2"]}'
-	//args[0]				-- ¼Ò¾ÆÀÌµð
-	//args[1]				-- ¾ç¼öÇÒ¼ÒÀ¯ÀÚ¾ÆÀÌµð
-	//args[2]				-- ¾çµµµÉ¼ÒÀ¯ÀÚ¾ÆÀÌµð
+	//args[0]				-- ï¿½Ò¾ï¿½ï¿½Ìµï¿½
+	//args[1]				-- ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	//args[2]				-- ï¿½çµµï¿½É¼ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
 
 	log.Println("--==changeCowOwner==--")
 
@@ -734,14 +723,14 @@ func (s *SmartContract) changeCowOwner(APIstub shim.ChaincodeStubInterface, args
 
 	cowAsBytes, _ := APIstub.GetState(args[0])
 	cow := Cow{}
-	//OWNER 1,2,3¿¡ Àû¿ë
+	//OWNER 1,2,3ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	json.Unmarshal(cowAsBytes, &cow)
 
 	// if cow.Owner.Owner_id != args[1] {
-	// 	return shim.Error("¾çµµÇÒ ¼ÒÀÇ ¼ÒÀ¯ÀÚ ¾ÆÀÌµð°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.")
+	// 	return shim.Error("ï¿½çµµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.")
 	// }
 
-	//¾çµµ¹ÞÀ» ¼ÒÀ¯ÀÚ Á¤º¸ °¡Á®¿À±â
+	//ï¿½çµµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ownerAsBytes, _ := APIstub.GetState(args[2])
 	owner := Owner{}
 
@@ -761,23 +750,23 @@ func (s *SmartContract) changeCowOwner(APIstub shim.ChaincodeStubInterface, args
 	return shim.Success(nil)
 }
 
-//Ä£È¯°æ ½ÄÇ°ÀÎÁõµî·Ï
+//Ä£È¯ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) addAut(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addAut==--")
 
-	//'{'"Args":["addAut","OWNER90", "AutCheck", "201905251610", "Ãà¸²", "1985.10.27", "Àü¶óºÏµµ ÀÍ»ê½Ã", "Jeon Buk", "Cow", "30", "ÃàÆò¿ø", "10001", "20180525"]}'
-	//aut_falg 			-- ÀÎÁõ±¸ºÐ
-	//validity_date		-- À¯È¿±â°£
-	//farm_nm			-- »ý»óÁö¸í
-	//farm_birth_date	-- »ý»êÀÚ»ý³â¿ùÀÏ
-	//farm_addr			-- »ý»êÀÚ ÁÖ¼Ò
-	//biz_addr			-- »ç¾÷Àå ¼ÒÀçÁö
-	//aut_item			-- ÀÎÁõÇ°¸ñ
-	//breed_head		-- »çÀ°µÎ¼ö
-	//aut_com			-- ÀÎÁõ±â°ü
-	//aut_id			-- ÀÎÁõ¹øÈ£
-	//aut_date			-- ÀÎÁõÀÏÀÚ
+	//'{'"Args":["addAut","OWNER90", "AutCheck", "201905251610", "ï¿½à¸²", "1985.10.27", "ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ ï¿½Í»ï¿½ï¿½ï¿½", "Jeon Buk", "Cow", "30", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "10001", "20180525"]}'
+	//aut_falg 			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//validity_date		-- ï¿½ï¿½È¿ï¿½â°£
+	//farm_nm			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//farm_birth_date	-- ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//farm_addr			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+	//biz_addr			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//aut_item			-- ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½
+	//breed_head		-- ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½
+	//aut_com			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//aut_id			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+	//aut_date			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	// if len(args) != 13 {
 	// 	return shim.Error("Incorrect number of arguments. Expecting 13")
@@ -801,38 +790,38 @@ func (s *SmartContract) addAut(APIstub shim.ChaincodeStubInterface, args []strin
 		owner.setOwnerRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ownerAsBytes, _ = json.Marshal(owner)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], ownerAsBytes)
 
 	return shim.Success(nil)
 }
 
-//°áÇÙ/ºê·ç¼¿¶ó(Tuberculousis/Brucella) °Ë»ç - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ç¼¿ï¿½ï¿½(Tuberculousis/Brucella) ï¿½Ë»ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addBTVaccine(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addBTVaccine==--")
 
 	//'{'"Args":["addBTVaccine","COW90", "farm_id", "farm_nm", "farm_addr", "farm_user_nm", "farm_user_birth", "farm_user_addr", "inspection_date", "inspection_head", "inspection_method", "livestock", "kind", "sex", "age", "id_no", "inspection_result", "inspection_part", "inspection_user_nm"]}'
-	//args[0]						-- ¼Ò¾ÆÀÌµð
-	//args[1] 	farm_id				-- ³óÀå½Äº°¹øÈ£
-	//args[2] 	farm_nm				-- ³óÀå¸í
-	//args[3] 	farm_addr			-- ¼ÒÀçÁö
-	//args[4] 	farm_user_nm		-- ³óÀå°ü¸®ÀÚ ¼º¸í
-	//args[5] 	farm_user_birth		-- ³óÀå°ü¸®ÀÚ »ý³â¿ùÀÏ
-	//args[6] 	farm_user_addr		-- ³óÀå°ü¸®ÀÚ ÁÖ¼Ò
-	//args[7] 	inspection_date		-- °Ë»ç¿¬¿ùÀÏ
-	//args[8] 	inspection_head		-- °Ë»çµÎ¼ö
-	//args[9] 	inspection_method	-- °Ë»ç¹æ¹ý
-	//args[10]	livestock			-- ÃàÁ¾
-	//args[11] 	kind				-- Ç°Á¾
-	//args[12] 	sex					-- ¼ºº°
-	//args[13] 	age					-- ¿¬·É
-	//args[14] 	id_no				-- °³Ã¼½Äº°¹øÈ£
-	//args[15] 	inspection_result	-- °Ë»ç°á°ú
-	//args[16] 	inspection_part		-- °Ë»çÀÚ¼Ò¼Ó
-	//args[17] 	inspection_user_nm	-- °Ë»çÀÚ¼º¸í
+	//args[0]						-- ï¿½Ò¾ï¿½ï¿½Ìµï¿½
+	//args[1] 	farm_id				-- ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] 	farm_nm				-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[3] 	farm_addr			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] 	farm_user_nm		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[5] 	farm_user_birth		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[6] 	farm_user_addr		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+	//args[7] 	inspection_date		-- ï¿½Ë»ç¿¬ï¿½ï¿½ï¿½ï¿½
+	//args[8] 	inspection_head		-- ï¿½Ë»ï¿½ï¿½Î¼ï¿½
+	//args[9] 	inspection_method	-- ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[10]	livestock			-- ï¿½ï¿½ï¿½ï¿½
+	//args[11] 	kind				-- Ç°ï¿½ï¿½
+	//args[12] 	sex					-- ï¿½ï¿½ï¿½ï¿½
+	//args[13] 	age					-- ï¿½ï¿½ï¿½ï¿½
+	//args[14] 	id_no				-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[15] 	inspection_result	-- ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[16] 	inspection_part		-- ï¿½Ë»ï¿½ï¿½Ú¼Ò¼ï¿½
+	//args[17] 	inspection_user_nm	-- ï¿½Ë»ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½
 
 	if len(args) != 18 {
 		return shim.Error("Incorrect number of arguments. Expecting 18")
@@ -857,30 +846,30 @@ func (s *SmartContract) addBTVaccine(APIstub shim.ChaincodeStubInterface, args [
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//±¸Á¦¿ª ¿¹¹æÁ¢Á¾(Foot And Mouse Disease)
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Foot And Mouse Disease)
 func (s *SmartContract) addFAMDVaccine(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addFAMDVaccine==--")
 
 	//'{'"Args":["addFAMDVaccine","COW90", "farm_id", "farm_addr", "farm_tel", "breed_head", "item", "sex", "age", "id_no", "vaccination_date"]}'
-	//args[0]					-- ¼Ò¾ÆÀÌµð
-	//args[1] farm_id			-- ³óÀå½Äº°¹øÈ£
-	//args[2] farm_addr			-- ³óÀåÁÖ¼Ò
-	//args[3] farm_tel			-- ³óÀåÀüÈ­¹øÈ£
-	//args[4] breed_head		-- »çÀ°µÎ¼ö
-	//args[5] item				-- Ç°Á¾
-	//args[6] sex				-- ¼ºº°
-	//args[7] age				-- ¿¬·É
-	//args[8] id_no				-- °³Ã¼½Äº°¹øÈ£
-	//args[9] vaccination_date	-- ¿¹¹æÁ¢Á¾ÀÏ
+	//args[0]					-- ï¿½Ò¾ï¿½ï¿½Ìµï¿½
+	//args[1] farm_id			-- ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] farm_addr			-- ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
+	//args[3] farm_tel			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½È£
+	//args[4] breed_head		-- ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½
+	//args[5] item				-- Ç°ï¿½ï¿½
+	//args[6] sex				-- ï¿½ï¿½ï¿½ï¿½
+	//args[7] age				-- ï¿½ï¿½ï¿½ï¿½
+	//args[8] id_no				-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[9] vaccination_date	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	if len(args) != 10 {
 		return shim.Error("Incorrect number of arguments. Expecting 9")
@@ -904,26 +893,26 @@ func (s *SmartContract) addFAMDVaccine(APIstub shim.ChaincodeStubInterface, args
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//°¡Ãà Æó»ç - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoDead(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoDead==--")
 
 	//'{'"Args":["addInfoDead","COW90", "01", "180501-1", "180528", "Cancer", "burning"]}'
-	//args[0]				-- ¼Ò¾ÆÀÌµð
-	//args[1] farm_id		-- ³óÀå¾ÆÀÌµð
-	//args[2] id_no			-- °³Ã¼½Äº°¹øÈ£
-	//args[3] det_date		-- Æó»çÀÏ
-	//args[4] det_reason	-- Æó»ç¿ø¾È
-	//args[5] det_method	-- Æó»çÃ³¸®¹æ¹ý
+	//args[0]				-- ï¿½Ò¾ï¿½ï¿½Ìµï¿½
+	//args[1] farm_id		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
+	//args[2] id_no			-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[3] det_date		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] det_reason	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[5] det_method	-- ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	log.Println(len(args))
 
@@ -943,23 +932,23 @@ func (s *SmartContract) addInfoDead(APIstub shim.ChaincodeStubInterface, args []
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//µµÃàÃâÇÏ - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoDeliver(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoDeliver==--")
 
 	//'{'"Args":["addInfoDeliver","COW10", "180501-1", "RFID0"]}'
 	//args[0]				-- Cow Key
-	//args[1] id_no			-- °³Ã¼½Äº°¹øÈ£
-	//args[2] rfid_no		-- RFID½Äº°¹øÈ£
+	//args[1] id_no			-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] rfid_no		-- RFIDï¿½Äºï¿½ï¿½ï¿½È£
 
 	log.Println(len(args))
 
@@ -979,35 +968,35 @@ func (s *SmartContract) addInfoDeliver(APIstub shim.ChaincodeStubInterface, args
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//µµÃà°Ë»çµî·Ï - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoInspect(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoInspect==--")
 
 	//'{'"Args":["addInfoInspect","COW10", "COW", "180501-1", "300kg", "DoChuk1", "seal_10", "20180529", "FARM0", "Jeonju", "HACCP10", "Discard", "20180529", "Korea Inspect Center", "vetrinarian_100"]}'
 	//args[0]						-- Cow Key
-	//args[1] livestock				-- °¡ÃàÀÇ Á¾·ù
-	//args[2] id_no					-- °³Ã¼½Äº°¹øÈ£
-	//args[3] weight				-- Áß·®(ÁöÀ° ¹× ³»Àå)
-	//args[4] slaughter_nm			-- µµÃàÀå¸í
-	//args[5] seal_no				-- °ËÀÎ¹øÈ£
-	//args[6] slaughter_date		-- µµÃà¿¬¿ùÀÏ
-	//args[7] farm_id				-- ³óÀå½Äº°¹øÈ£
-	//args[8] farm_addr				-- µµÃàÀÇ·ÚÀÎ ÁÖ¼Ò
-	//args[9] haccp_yn				-- HACCP ÀÎÁõ¿©ºÎ
-	//args[10] fale_method			-- ºÒÇÕ°Ý ½ÄÀ° Ã³ºÐ ¹æ¹ý
-	//args[11] inspection_date		-- °Ë»ç¿¬¿ùÀÏ
-	//args[12] inspection_part		-- °Ë»ç°ü ¼Ò¼Ó
-	//args[13] inspection_user_nm	-- °Ë»ç°ü ¼º¸í
-	//args[14] veterinarian_no		-- ¼öÀÇ»ç ¸éÇã¹øÈ£
+	//args[1] livestock				-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[2] id_no					-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[3] weight				-- ï¿½ß·ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	//args[4] slaughter_nm			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[5] seal_no				-- ï¿½ï¿½ï¿½Î¹ï¿½È£
+	//args[6] slaughter_date		-- ï¿½ï¿½ï¿½à¿¬ï¿½ï¿½ï¿½ï¿½
+	//args[7] farm_id				-- ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[8] farm_addr				-- ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+	//args[9] haccp_yn				-- HACCP ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[10] fale_method			-- ï¿½ï¿½ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[11] inspection_date		-- ï¿½Ë»ç¿¬ï¿½ï¿½ï¿½ï¿½
+	//args[12] inspection_part		-- ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½Ò¼ï¿½
+	//args[13] inspection_user_nm	-- ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[14] veterinarian_no		-- ï¿½ï¿½ï¿½Ç»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
 
 	log.Println(len(args))
 
@@ -1027,35 +1016,35 @@ func (s *SmartContract) addInfoInspect(APIstub shim.ChaincodeStubInterface, args
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//µî±ÞÆÇÁ¤°á°úµî·Ï - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoGradeResult(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoGradeResult==--")
 
 	//'{'"Args":["addInfoGradeResult","COW10", "180529", "quality_part", "quality_nm", "subscriber_nm", "subscriber_birth", "subscriber_company", "subscriber_addr", "slaughter_nm", "slaughter_addr", "id_no", "weight", "meat_quality_grade", "meat_weight_grade", "grade_head"]}'
 	//args[0]						-- Cow Key
-	//args[1] grade_date			-- µî±ÞÆÇÁ¤¿¬¿ùÀÏ
-	//args[2] quality_part			-- Ç°ÁúÆò°¡»ç ¼Ò¼Ó
-	//args[3] quality_nm			-- Ç°ÁúÆò°¡»ç ¼º¸í
-	//args[4] subscriber_nm			-- ½ÅÃ»ÀÎ ¼º¸í
-	//args[5] subscriber_birth		-- ½ÅÃ»ÀÎ »ý³â¿ùÀÏ
-	//args[6] subscriber_company	-- ½ÅÃ»ÀÏ ¾÷¼Ò¸í
-	//args[7] subscriber_addr		-- ½ÅÃ»ÀÎ ÁÖ¼Ò
-	//args[8] slaughter_nm			-- µµÃàÀå ¸í
-	//args[9] slaughter_addr		-- µµÃàÀå ÁÖ¼Ò
-	//args[10] id_no				-- °³Ã¼½Äº°¹øÈ£
-	//args[11] weight				-- Áß·®(ÁöÀ° ¹× ³»Àå)
-	//args[12] meat_quality_grade	-- À°Áúµî±Þ
-	//args[13] meat_weight_grade	-- À°·®µî±Þ
-	//args[14] grade_head			-- ÆÇÁ¤µÎ¼ö
+	//args[1] grade_date			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[2] quality_part			-- Ç°ï¿½ï¿½ï¿½ò°¡»ï¿½ ï¿½Ò¼ï¿½
+	//args[3] quality_nm			-- Ç°ï¿½ï¿½ï¿½ò°¡»ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[4] subscriber_nm			-- ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//args[5] subscriber_birth		-- ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[6] subscriber_company	-- ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½Ò¸ï¿½
+	//args[7] subscriber_addr		-- ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Ö¼ï¿½
+	//args[8] slaughter_nm			-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	//args[9] slaughter_addr		-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+	//args[10] id_no				-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[11] weight				-- ï¿½ß·ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	//args[12] meat_quality_grade	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[13] meat_weight_grade	-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[14] grade_head			-- ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½
 
 	log.Println(len(args))
 
@@ -1075,29 +1064,29 @@ func (s *SmartContract) addInfoGradeResult(APIstub shim.ChaincodeStubInterface, 
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//¸ÅÀÔ½Å°í - °Å·¡(°¡°øÀå)
+//ï¿½ï¿½ï¿½Ô½Å°ï¿½ - ï¿½Å·ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 func (s *SmartContract) addInfoInProcessesReportPurchase(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-	//°¡°øÀå¸ÅÀÔ½Å°í
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½Å°ï¿½
 
 	log.Println("--==addInfoInProcessesReportPurchase==--")
 
 	//'{'"Args":["addInfoInProcessesReportPurchase","COW10", "barcode_id", "deal_date", "origin", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] barcode_id			-- ¹ÙÄÚµåID
-	//args[2] deal_date				-- °Å·¡¿¬¿ùÀÏ
-	//args[3] origin				-- ¿ø»êÁö
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- Áß·®
-	//args[6] purchase_nm			-- ¸ÅÀÔÃ³ »óÈ£
-	//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ID
+	//args[2] deal_date				-- ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[3] origin				-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½ß·ï¿½
+	//args[6] purchase_nm			-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] purchase_biz_no		-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
 	log.Println(len(args))
 
@@ -1117,27 +1106,27 @@ func (s *SmartContract) addInfoInProcessesReportPurchase(APIstub shim.ChaincodeS
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 	return shim.Success(nil)
 }
 
-//Æ÷ÀåÃ³¸®½ÇÀû½Å°í - °Å·¡
+//ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoReportPacking(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoReportPacking==--")
 
 	//'{'"Args":["addInfoReportPacking","COW10", "id_no", "barcode_id", "package_date", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] id_no					-- °³Ã¼½Äº°¹øÈ£
-	//args[2] barcode_id			-- ¹ÙÄÚµå ID
-	//args[3] package_date			-- Æ÷ÀåÃ³¸®ÀÏ
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- Áß·®
-	//args[6] purchase_nm			-- ¸ÅÀÔ/ÀÇ·ÚÃ³ »óÈ£
-	//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] id_no					-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ ID
+	//args[3] package_date			-- ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½ß·ï¿½
+	//args[6] purchase_nm			-- ï¿½ï¿½ï¿½ï¿½/ï¿½Ç·ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] purchase_biz_no		-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
 	log.Println(len(args))
 
@@ -1157,27 +1146,27 @@ func (s *SmartContract) addInfoReportPacking(APIstub shim.ChaincodeStubInterface
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 	return shim.Success(nil)
 }
 
-//ÆÇ¸Å½Å°í - °Å·¡
+//ï¿½Ç¸Å½Å°ï¿½ - ï¿½Å·ï¿½
 func (s *SmartContract) addInfoReportSale(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoReportSale==--")
 
 	//'{'"Args":["addInfoReportSale","COW10", "id_no", "barcode_id", "package_date", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] id_no					-- °³Ã¼½Äº°¹øÈ£
-	//args[2] barcode_id			-- ¹ÙÄÚµå ID
-	//args[3] sale_date				-- ÆÇ¸Å¿¬¿ùÀÏ
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- ÆÇ¸ÅÁß·®
-	//args[6] sale_nm				-- ÆÇ¸ÅÃ³ »óÈ£
-	//args[7] sale_biz_no			-- ÆÇ¸ÅÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] id_no					-- ï¿½ï¿½Ã¼ï¿½Äºï¿½ï¿½ï¿½È£
+	//args[2] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ ID
+	//args[3] sale_date				-- ï¿½Ç¸Å¿ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½Ç¸ï¿½ï¿½ß·ï¿½
+	//args[6] sale_nm				-- ï¿½Ç¸ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] sale_biz_no			-- ï¿½Ç¸ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
 	log.Println(len(args))
 
@@ -1197,28 +1186,28 @@ func (s *SmartContract) addInfoReportSale(APIstub shim.ChaincodeStubInterface, a
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//¸ÅÀÔ½Å°í - °Å·¡(ÆÇ¸ÅÀå)
+//ï¿½ï¿½ï¿½Ô½Å°ï¿½ - ï¿½Å·ï¿½(ï¿½Ç¸ï¿½ï¿½ï¿½)
 func (s *SmartContract) addInfoInSalesReportPurchase(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	log.Println("--==addInfoInSalesReportPurchase==--")
 
 	//'{'"Args":["addInfoInSalesReportPurchase","COW10", "barcode_id", "deal_date", "origin", "part", "weight", "purchase_nm", "purchase_biz_no"]}'
 	//args[0]						-- Cow Key
-	//args[1] barcode_id			-- ¹ÙÄÚµåID
-	//args[2] deal_date				-- °Å·¡¿¬¿ùÀÏ
-	//args[3] origin				-- ¿ø»êÁö
-	//args[4] part					-- ºÎÀ§
-	//args[5] weight				-- Áß·®
-	//args[6] purchase_nm			-- ¸ÅÀÔÃ³ »óÈ£
-	//args[7] purchase_biz_no		-- ¸ÅÀÔÃ³ »ç¾÷ÀÚµî·Ï¹øÈ£
+	//args[1] barcode_id			-- ï¿½ï¿½ï¿½Úµï¿½ID
+	//args[2] deal_date				-- ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[3] origin				-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//args[4] part					-- ï¿½ï¿½ï¿½ï¿½
+	//args[5] weight				-- ï¿½ß·ï¿½
+	//args[6] purchase_nm			-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½È£
+	//args[7] purchase_biz_no		-- ï¿½ï¿½ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï¹ï¿½È£
 
 	log.Println(len(args))
 
@@ -1238,14 +1227,14 @@ func (s *SmartContract) addInfoInSalesReportPurchase(APIstub shim.ChaincodeStubI
 		cow.setCowRemark(remarkData)
 	}
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 	return shim.Success(nil)
 }
 
-//¼Ò Á¤º¸ »èÁ¦
+//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 func (s *SmartContract) deleteCow(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	var jsonResp string
 	var CowJSON Cow
@@ -1255,7 +1244,7 @@ func (s *SmartContract) deleteCow(APIstub shim.ChaincodeStubInterface, args []st
 	cowId := args[0]
 
 	// to maintain the make~grade index, we need to read the cow first and get 'Make' values.
-	// make ~ grade ÀÎµ¦½º¸¦ À¯ÁöÇÏ·Á¸é ¸ÕÀú ¼ÒÀÇ Á¤º¸¸¦ ÀÐ°í '°¡°ø¾÷Ã¼' Á¤º¸¸¦ °¡Á®¿Í¾ßÇÕ´Ï´Ù.
+	// make ~ grade ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð°ï¿½ 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¾ï¿½ï¿½Õ´Ï´ï¿½.
 	valAsbytes, err := APIstub.GetState(cowId) //get the cow from chaincode state
 	if err != nil {
 		jsonResp = "{\"Error\":\"Failed to get state for " + cowId + "\"}"
@@ -1291,7 +1280,7 @@ func (s *SmartContract) deleteCow(APIstub shim.ChaincodeStubInterface, args []st
 	return shim.Success(nil)
 }
 
-//test(Remark Àû¿ë Test)
+//test(Remark ï¿½ï¿½ï¿½ï¿½ Test)
 func (s *SmartContract) addRemark(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	//'{'"Args":["addRemark","COW4", "addVaccine", "True"]}
 
@@ -1304,13 +1293,13 @@ func (s *SmartContract) addRemark(APIstub shim.ChaincodeStubInterface, args []st
 	cowAsBytes, _ := APIstub.GetState(args[0])
 	cow := Cow{}
 
-	//ByteÇüÅÂÀÇ jsonÀ» ±âÁ¸ jsonÀ¸·Î º¯°æ
+	//Byteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ jsonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ jsonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	json.Unmarshal(cowAsBytes, &cow)
 
-	//»õ ºñ°í°ªÀ¸·Î ³ÖÀ» Key Value¸¦ ³ÖÀ½
+	//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Key Valueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	remark1 := Remark{Key: args[1], Value: args[2]}
 
-	//ºñ°í°ªÀ» ³ÖÀ» µ¥ÀÌÅÍ ¼±¾ð
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//Remarks := []Remark{}
 
 	cow.setCowRemark(remark1)
@@ -1318,29 +1307,29 @@ func (s *SmartContract) addRemark(APIstub shim.ChaincodeStubInterface, args []st
 	// if cow.Remarks == nil {
 	// 	cow.Remarks[0] = remark1
 	// } else {
-	// 	//±âÁ¸ÀÇ Remarks ¹è¿­¿¡ »õ ºñ°í°ªÀ» Ãß°¡
+	// 	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Remarks ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	// 	Remarks = append(cow.Remarks, remark1)
 	// }
 	log.Println("change [cow] cow.Remarks Key: " + cow.Remarks[0].Key + " Value: " + cow.Remarks[0].Value)
 
-	//ÀÌÀüÀÇ Remark ´ë½Å Ãß°¡µÈ Remarks·Î ´Ù½Ã ³Ö¾îÁÜ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Remark ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ Remarksï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½
 	//cow.Remarks = Remarks
 
-	//JsonÀ» ´Ù½Ã Byte ÇüÅÂ·Î º¯°æ
+	//Jsonï¿½ï¿½ ï¿½Ù½ï¿½ Byte ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 	cowAsBytes, _ = json.Marshal(cow)
-	//PutStateÇØÁÜ
+	//PutStateï¿½ï¿½ï¿½ï¿½
 	APIstub.PutState(args[0], cowAsBytes)
 
 	return shim.Success(nil)
 }
 
-//test(Cow Remark Àû¿ë Test)
+//test(Cow Remark ï¿½ï¿½ï¿½ï¿½ Test)
 func (cow *Cow) setCowRemark(remark1 Remark) []Remark {
 	cow.Remarks = append(cow.Remarks, remark1)
 	return cow.Remarks
 }
 
-//test(Owner Remark Àû¿ë Test)
+//test(Owner Remark ï¿½ï¿½ï¿½ï¿½ Test)
 func (owner *Owner) setOwnerRemark(remark1 Remark) []Remark {
 	owner.Remarks = append(owner.Remarks, remark1)
 	return owner.Remarks
